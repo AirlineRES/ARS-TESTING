@@ -1,0 +1,27 @@
+create proc [airline].[USP_CancelTicket]
+
+@ticketNo varchar(12)
+
+AS
+
+BEGIN
+
+if(JourneyDate>getdate())
+
+begin
+
+update airline.reservation set ReservationStatus='cancelled' where TicketNo = @ticketNo;
+
+end
+
+else if(JourneyDate<getdate())
+
+begin
+
+update airline.reservation set ReservationStatus='cancelled', TotalFare=TotalFare-0.6*TotalFare where TicketNo = @ticketNo;
+
+end
+
+ 
+
+END 
